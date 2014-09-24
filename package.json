@@ -1,0 +1,19 @@
+{
+  "name": "htdocs",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.8.8",
+    "gulp-connect": "^2.0.6",
+    "gulp-imagemin": "^1.0.1",
+    "gulp-plumber": "^0.6.5",
+    "gulp-sass": "^0.7.3",
+    "gulp-watch": "^1.0.7"
+  }
+}
