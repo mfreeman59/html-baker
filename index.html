@@ -18,17 +18,6 @@
 
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">  
 <link href="css/normalize.css" rel="stylesheet">  
-<script src="js/vendor/device.min.js"></script>
-<script>
-if(/mobile/.test(document.getElementsByTagName('html')[0].className)) {
-var sp = document.createElement('link'); sp.href = 'css/sp.css'; sp.rel = 'stylesheet';
-document.getElementsByTagName('head')[0].appendChild(sp);
-} else {
-var pc = document.createElement('link'); pc.href = 'css/pc.css'; pc.rel = 'stylesheet';
-document.getElementsByTagName('head')[0].appendChild(pc);
-}
-</script>
-
 
 <title>Format</title>
 </head>
@@ -39,6 +28,7 @@ document.getElementsByTagName('head')[0].appendChild(pc);
 
 <!--[if lt IE 9]>
 <script src="js/vendor/html5shiv.js"></script>
+<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
 <![endif]-->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.3.min.js"><\/script>')</script>
