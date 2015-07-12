@@ -1,3 +1,4 @@
 css/
+!css/vendor/
+.sass-cache/
 node_modules/
-*.swp
