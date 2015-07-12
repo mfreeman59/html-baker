@@ -26,8 +26,7 @@ gulp.task('sass', function(){
       errLogToConsole: true,
       sourceComments: 'normal'
     }))
-    .pipe(gulp.dest('./css'))
-    .pipe(connect.reload());
+    .pipe(gulp.dest('./css'));
 });
 
 // css minify
