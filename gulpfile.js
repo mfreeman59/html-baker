@@ -4,6 +4,7 @@ var runSequence = require('run-sequence');
 var img64 = require('gulp-img64');
 var cssImg64 = require('gulp-base64');
 var sass = require('gulp-sass');
+var uncss = require('gulp-uncss');
 var htmlmin = require('gulp-minify-html');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
@@ -54,6 +55,9 @@ gulp.task('cssOpt', function(){
       maxImageSize: 0
     }))
     .pipe(concat('all.css'))
+    .pipe(uncss({
+      html: ['index.html']
+    }))
     .pipe(gulp.dest('./gen/'));
 });
 
