@@ -1,3 +1,5 @@
+dist/
+gen/
 css/
 !css/vendor/
 .sass-cache/

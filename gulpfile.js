@@ -1,10 +1,13 @@
 var gulp = require('gulp');
 var plumber = require('gulp-plumber');
-var imagemin = require('gulp-imagemin');
+var runSequence = require('run-sequence');
+var img64 = require('gulp-img64');
+var cssImg64 = require('gulp-base64');
 var sass = require('gulp-sass');
-var cssmin = require('gulp-minify-css');
+var htmlmin = require('gulp-minify-html');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
+var inlineSource = require('gulp-inline-source');
 var webserver = require('gulp-webserver');
 var watch = require('gulp-watch');
 
@@ -20,7 +23,7 @@ gulp.task('webserver', function(){
 
 // sassのコンパイル
 gulp.task('sass', function(){
-  gulp.src('./sass/*.sass')
+  return gulp.src('./sass/*.sass')
     .pipe(plumber())
     .pipe(sass({
       errLogToConsole: true,
@@ -29,19 +32,29 @@ gulp.task('sass', function(){
     .pipe(gulp.dest('./css'));
 });
 
-// css minify
-gulp.task('cssmin', function(){
-  gulp
-    .src('./css/**/*.css')
-    .pipe(cssmin())
-    .pipe(gulp.dest('./dist/css'));
+// html最適化
+gulp.task('htmlOpt', function() {
+  var opts = {
+    conditionals: true,
+    spare:true
+  };
+
+  return gulp.src('./*.html')
+    .pipe(inlineSource())
+    .pipe(img64())
+    .pipe(htmlmin(opts))
+    .pipe(gulp.dest('./dist/'));
 });
 
-
-// 画像のminify
-gulp.task('imagemin', function(){
-  gulp.src('./img/*.{png, jpg}')
-    .pipe(imagemin());
+//css最適化
+gulp.task('cssOpt', function(){
+  return gulp
+    .src('./css/*.css')
+    .pipe(cssImg64({
+      maxImageSize: 0
+    }))
+    .pipe(concat('all.css'))
+    .pipe(gulp.dest('./gen/'));
 });
 
 // js uglify
@@ -50,12 +63,6 @@ gulp.task('uglify', function(){
     .src('./app/**/*.js')
     .pipe(uglify())
     .pipe(gulp.dest('./dist'));
-});
-
-//concat
-gulp.task('concat', function(){
-  // gulp
-  //   .src('./')
 });
 
 // watchタスク
@@ -69,11 +76,11 @@ gulp.task('reloadJs', function(){
 });
 
 gulp.task('watch', function(){
-  gulp.watch(['./**/*.html'], ['reloadHtml']);
   gulp.watch(['./sass/**/*.sass'], ['sass']);
-  gulp.watch(['./js/**/*.js'], ['reloadJs']);
 });
 
 
-gulp.task('default', ['sass', 'imagemin', 'webserver', 'watch']);
-gulp.task('release', ['imagemin','sass', 'cssmin', 'uglify', '']);
+gulp.task('default', ['sass', 'webserver', 'watch']);
+gulp.task('release', function(callback) {
+  runSequence('sass', 'cssOpt', 'htmlOpt', callback);
+});
