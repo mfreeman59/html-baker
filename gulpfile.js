@@ -19,7 +19,7 @@ gulp.task('webserver', function(){
     .pipe(webserver({
       livereload: true,
       directoryListing: true
-    }))
+    }));
 });
 
 // sassのコンパイル
