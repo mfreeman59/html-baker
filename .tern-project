@@ -1,0 +1,8 @@
+{
+  "libs": [
+    "brower",
+    "ecma5",
+    "jquery"
+  ]
+}
+

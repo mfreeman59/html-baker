@@ -8,6 +8,8 @@ var uncss = require('gulp-uncss');
 var htmlmin = require('gulp-minify-html');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
+var babel = require('gulp-babel');
+var sourcemaps = require('gulp-sourcemaps');
 var inlineSource = require('gulp-inline-source');
 var webserver = require('gulp-webserver');
 var watch = require('gulp-watch');
@@ -69,6 +71,24 @@ gulp.task('uglify', function(){
     .pipe(gulp.dest('./dist'));
 });
 
+// babelトランスパイル
+gulp.task('babelTranspile', function(){
+  var files = [
+    './js/WaterFall.js',
+    './js/main.js'
+  ];
+
+  return gulp.src(files)
+    .pipe(plumber())
+    .pipe(sourcemaps.init())
+    .pipe(concat('all.js'))
+    .pipe(babel({
+      presets: ['es2015']
+    }))
+    .pipe(sourcemaps.write('../maps'))
+    .pipe(gulp.dest('./dist'));
+});
+
 // watchタスク
 gulp.task('reloadHtml', function(){
   gulp.src('./**/*.html')
@@ -81,10 +101,11 @@ gulp.task('reloadJs', function(){
 
 gulp.task('watch', function(){
   gulp.watch(['./sass/**/*.sass'], ['sass']);
+  gulp.watch(['./js/*.js'], ['babelTranspile']);
 });
 
 
-gulp.task('default', ['sass', 'webserver', 'watch']);
+gulp.task('default', ['sass', 'babelTranspile', 'webserver', 'watch']);
 gulp.task('release', function(callback) {
   runSequence('sass', 'cssOpt', 'htmlOpt', callback);
 });
