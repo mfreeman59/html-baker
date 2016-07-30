@@ -9,7 +9,6 @@ var htmlmin = require('gulp-minify-html');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var babel = require('gulp-babel');
-var sourcemaps = require('gulp-sourcemaps');
 var inlineSource = require('gulp-inline-source');
 var webserver = require('gulp-webserver');
 var watch = require('gulp-watch');
@@ -80,12 +79,10 @@ gulp.task('babelTranspile', function(){
 
   return gulp.src(files)
     .pipe(plumber())
-    .pipe(sourcemaps.init())
     .pipe(concat('all.js'))
     .pipe(babel({
       presets: ['es2015']
     }))
-    .pipe(sourcemaps.write('../maps'))
     .pipe(gulp.dest('./dist'));
 });
 
